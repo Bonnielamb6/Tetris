@@ -10,8 +10,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         char option = scanner.nextLine().toUpperCase().charAt(0);
-        List<Character[][]> piecesList = new ArrayList<>();
-        TetrisPiece currentPiece = null;
+        TetrisPiece currentPiece;
         int rows = scanner.nextInt();
         int cols = scanner.nextInt();
 
@@ -48,7 +47,7 @@ public class Main {
         printMatrix(matrix, rows, cols);
         matrix = createMatrix(currentPiece, rows, cols);
         printMatrix(matrix, rows, cols);
-        menu(scanner, currentPiece, matrix, rows, cols);
+        menu(scanner, currentPiece, rows, cols);
     }
 
     private static Character[][] initializeMatrix(int rows, int cols) {
@@ -62,7 +61,8 @@ public class Main {
         return matrixTemp;
     }
 
-    public static void menu(Scanner scanner, TetrisPiece currentPiece, Character[][] matrix, int rows, int cols) {
+    public static void menu(Scanner scanner, TetrisPiece currentPiece, int rows, int cols) {
+        Character[][] matrix;
         String option = "";
         while (!option.equals("exit")) {
             option = scanner.nextLine().toLowerCase();
@@ -94,24 +94,22 @@ public class Main {
     public static Character[][] createMatrix(TetrisPiece currentPiece, int rows, int cols) {
         Character[][] matrixTemp = initializeMatrix(rows, cols);
 
-        for (int i = 0; i < currentPiece.getCurrentPieceState().length; i++) {//3
-            for (int j = 0; j < currentPiece.getCurrentPieceState().length; j++) {//1
+        for (int i = 0; i < currentPiece.getCurrentPieceState().length; i++) {
+            for (int j = 0; j < currentPiece.getCurrentPieceState().length; j++) {
                 int tempi = currentPiece.getyPosition() + i;
                 int tempj = currentPiece.getxPosition() + j;
-                if ((currentPiece.getxPosition() + j) >= matrixTemp[0].length) {
-                    tempj = currentPiece.getxPosition() + j - rows;
+                if (currentPiece.getCurrentPieceState()[i][j] == '0') {
 
+                    currentPiece.setHitRightWall((currentPiece.getxPosition() + j) == matrixTemp[0].length-1);
+
+                    currentPiece.setHitLeftWall((currentPiece.getxPosition() + j) == 1);
+
+                    if (currentPiece.getyPosition() + i >= matrixTemp.length-1) {
+                        currentPiece.hitFloor();
+
+                    }
+                    matrixTemp[tempi][tempj] = currentPiece.getCurrentPieceState()[i][j];
                 }
-                if ((currentPiece.getxPosition() + j) < 0) {
-                    tempj = currentPiece.getxPosition() + j + rows;
-
-                }
-                if (currentPiece.getyPosition() + i >= matrixTemp.length) {
-                    tempi = currentPiece.getyPosition() + i - cols;
-
-                }
-                matrixTemp[tempi][tempj] = currentPiece.getCurrentPieceState()[i][j];
-
 
             }
         }

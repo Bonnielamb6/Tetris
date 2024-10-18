@@ -39,17 +39,6 @@ public abstract class TetrisPiece {
         this.yPosition = yPosition;
     }
 
-    public List<Character[][]> getPieceStates() {
-        List<Character[][]> copy = new ArrayList<>();
-        for (Character[][] state : pieceStates) {
-            Character[][] stateCopy = new Character[state.length][];
-            for (int i = 0; i < state.length; i++) {
-                stateCopy[i] = state[i].clone();
-            }
-            copy.add(stateCopy);
-        }
-        return copy;
-    }
 
     public Character[][] getCurrentPieceState() {
         return pieceStates.get(indexPieceState).clone();

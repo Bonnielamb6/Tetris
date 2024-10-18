@@ -8,72 +8,79 @@ public abstract class TetrisPiece {
     protected int yPosition;
     protected List<Character[][]> pieceStates;
     protected int indexPieceState;
+    protected boolean hitFloor;
+    protected boolean hitLeftWall;
+    protected boolean hitRightWall;
 
     public TetrisPiece() {
         indexPieceState = 0;
         xPosition = 0;
         yPosition = 0;
+        hitFloor = false;
+        hitLeftWall = false;
+        hitRightWall = false;
         List<Integer[]> pieces = initPieceStates();
         pieceStates = initList(pieces);
     }
 
-    public int getxPosition(){
+    public int getxPosition() {
         return xPosition;
     }
 
-    public void setxPosition(int xPosition){
+    public void setxPosition(int xPosition) {
         this.xPosition = xPosition;
     }
 
-    public int getyPosition(){
+    public int getyPosition() {
         return yPosition;
     }
 
-    public void setyPosition(int yPosition){
+    public void setyPosition(int yPosition) {
         this.yPosition = yPosition;
     }
 
-    public List<Character[][]> getPieceStates(){
-        List<Character[][]> copy = new ArrayList<>();
-        for (Character[][] state : pieceStates) {
-            Character[][] stateCopy = new Character[state.length][];
-            for (int i = 0; i < state.length; i++) {
-                stateCopy[i] = state[i].clone();
-            }
-            copy.add(stateCopy);
-        }
-        return copy;
-    }
 
-    public Character[][] getCurrentPieceState(){
+    public Character[][] getCurrentPieceState() {
         return pieceStates.get(indexPieceState).clone();
     }
 
-    public void rotatePiece(){
-        moveDown();
-        indexPieceState++;
-        if (indexPieceState >= pieceStates.size()) {
-            indexPieceState = 0;
+    public void rotatePiece() {
+        if (!isHitFloor()) {
+            moveDown();
+            indexPieceState++;
+            if (indexPieceState >= pieceStates.size()) {
+                indexPieceState = 0;
+            }
         }
     }
 
-    public void moveDown(){
-        setyPosition(yPosition + 1);
+    public void moveDown() {
+        if (!isHitFloor()) {
+            setyPosition(yPosition + 1);
+        }
     }
 
-    public void moveLeft(){
-        moveDown();
-        setxPosition(xPosition - 1);
+    public void moveLeft() {
+        if (!isHitFloor()) {
+            moveDown();
+            if (!isHitLeftWall()) {
+                setxPosition(xPosition - 1);
+            }
+        }
     }
 
     public void moveRight() {
-        moveDown();
-        setxPosition(xPosition + 1);
+        if (!isHitFloor()) {
+            moveDown();
+            if (!isHitRightWall()) {
+                setxPosition(xPosition + 1);
+            }
+        }
     }
 
     protected abstract List<Integer[]> initPieceStates();
 
-    protected List<Character[][]> initList(List<Integer[]> pieces){
+    protected List<Character[][]> initList(List<Integer[]> pieces) {
         List<Character[][]> tempPieceStates = new ArrayList<>();
         for (Integer[] piece : pieces) {
             short counter = 0;
@@ -93,4 +100,27 @@ public abstract class TetrisPiece {
         return new ArrayList<>(tempPieceStates);
     }
 
+    public boolean isHitFloor() {
+        return hitFloor;
+    }
+
+    public void hitFloor() {
+        hitFloor = true;
+    }
+
+    public boolean isHitLeftWall() {
+        return hitLeftWall;
+    }
+
+    public void setHitLeftWall(boolean hitLeftWall) {
+        this.hitLeftWall = hitLeftWall;
+    }
+
+    public boolean isHitRightWall() {
+        return hitRightWall;
+    }
+
+    public void setHitRightWall(boolean hitRightWall) {
+        this.hitRightWall = hitRightWall;
+    }
 }

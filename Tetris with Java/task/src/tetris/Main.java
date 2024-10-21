@@ -40,10 +40,10 @@ public class Main {
         return option;
     }
 
-    private static Character[][] initializeMatrix(int rows, int cols) {
-        Character[][] matrixTemp = new Character[cols][rows];
-        for (int i = 0; i < cols; i++) {
-            for (int j = 0; j < rows; j++) {
+    private static char[][] initializeMatrix(int rows, int cols) {
+        char[][] matrixTemp = new char[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 matrixTemp[i][j] = '-';
             }
         }
@@ -51,7 +51,7 @@ public class Main {
     }
 
     public static String menuMovePiece(Scanner scanner, TetrisPiece currentPiece) {
-        Character[][] matrix;
+        char[][] matrix;
         String option ="";
         while (!option.equals("exit")) {
             option = scanner.nextLine().toLowerCase();
@@ -92,8 +92,8 @@ public class Main {
         }
     }
 
-    public static Character[][] createMatrix(TetrisPiece currentPiece) {
-        Character[][] matrixTemp = grid.getMatrix();
+    public static char[][] createMatrix(TetrisPiece currentPiece) {
+        char[][] matrixTemp = grid.getMatrix();
 
         for (int i = 0; i < currentPiece.getCurrentPieceState().length; i++) {
             for (int j = 0; j < currentPiece.getCurrentPieceState().length; j++) {
@@ -115,8 +115,8 @@ public class Main {
         return matrixTemp;
     }
 
-    public static void printMatrix(Character[][] matrix) {
-        for (Character[] characters : matrix) {
+    public static void printMatrix(char[][] matrix) {
+        for (char[] characters : matrix) {
             for (int j = 0; j < matrix[0].length; j++) {
                 System.out.print(characters[j] + " ");
             }
@@ -154,7 +154,7 @@ public class Main {
                 System.out.println("That option is not valid");
                 return "";
         }
-        Character[][] matrix = createMatrix(currentPiece);
+        char[][] matrix = createMatrix(currentPiece);
         printMatrix(matrix);
         return menuMovePiece(scanner, currentPiece);
     }

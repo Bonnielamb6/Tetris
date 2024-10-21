@@ -85,13 +85,13 @@ public abstract class TetrisPiece {
         for (Integer[] piece : pieces) {
             short counter = 0;
             Character[][] currentPiece = new Character[4][4];
-            for (int cols = 0; cols < 4; cols++) {
-                for (int rows = 0; rows < 4; rows++) {
-                    if (counter < 4 && piece[counter] == ((cols * 4) + (rows))) {
+            for (int rows = 0; rows < 4; rows++) {
+                for (int cols = 0; cols < 4; cols++) {
+                    if (counter < 4 && piece[counter] == ((rows * 4) + (cols))) {
                         counter++;
-                        currentPiece[cols][rows] = '0';
+                        currentPiece[rows][cols] = '0';
                     } else {
-                        currentPiece[cols][rows] = '-';
+                        currentPiece[rows][cols] = '-';
                     }
                 }
             }

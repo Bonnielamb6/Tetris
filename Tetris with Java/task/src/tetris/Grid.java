@@ -1,21 +1,21 @@
 package tetris;
 
 public class Grid {
-    private final Character[][] matrix;
+    private final char[][] matrix;
     private boolean isOnTop = false;
     public Grid(int rows, int cols) {
-        matrix = new Character[cols][rows];
+        matrix = new char[rows][cols];
     }
 
-    public void saveMatrix(Character[][] matrix) {
+    public void saveMatrix(char[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             System.arraycopy(matrix[i], 0, this.matrix[i], 0, matrix[i].length);
         }
         checkTopRow();
     }
 
-    public Character[][] getMatrix() {
-        Character[][] matrixTemp = new Character[matrix.length][matrix[0].length];
+    public char[][] getMatrix() {
+        char[][] matrixTemp = new char[matrix.length][matrix[0].length];
         for (int i = 0; i < matrix.length; i++) {
             System.arraycopy(matrix[i], 0, matrixTemp[i], 0, matrix[i].length);
         }

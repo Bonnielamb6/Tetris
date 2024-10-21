@@ -109,12 +109,15 @@ public class TetrisPiece {
     public void rotatePiece() {
         if (!isHitFloor()) {
             moveDown();
-            char[][] tempPiece = piece.clone();
-            for (int currentRows = 0; currentRows < rows; currentRows++) {
-                for (int currentCols = 0; currentCols < cols; currentCols++) {
-                    piece[cols - 1 - currentCols][currentRows] = tempPiece[currentRows][currentCols];
+            int tempRows = piece.length;
+            int tempCols = piece[0].length;
+            char[][] pieceTemp = new char[tempCols][tempRows];
+            for (int i = 0; i < tempRows; i++) {
+                for (int j = 0; j < tempCols; j++) {
+                    pieceTemp[tempCols - 1 - j][i] = piece[i][j];
                 }
             }
+             piece = pieceTemp;
         }
     }
 
@@ -147,7 +150,7 @@ public class TetrisPiece {
         int coordinatePointer = 0;
         for (int currentRows = 0; currentRows < rows; currentRows++) {
             for (int currentCols = 0; currentCols < cols; currentCols++) {
-                if ((currentRows * cols + currentCols) == coordinates[coordinatePointer]) {
+                if (coordinatePointer<4 && (currentRows * cols + currentCols) == coordinates[coordinatePointer]) {
                     piece[currentRows][currentCols] = OCCUPIED;
                     coordinatePointer++;
                 } else {

@@ -5,8 +5,8 @@ public class Grid {
     private final char OCCUPIED = '0';
     private final char[][] BOARD;
     private boolean isOnTop = false;
-    private int rows;
-    private int cols;
+    private final int rows;
+    private final int cols;
     public Grid(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;

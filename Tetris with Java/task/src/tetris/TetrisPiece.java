@@ -3,24 +3,91 @@ package tetris;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class TetrisPiece {
-    protected int xPosition;
-    protected int yPosition;
-    protected List<Character[][]> pieceStates;
-    protected int indexPieceState;
-    protected boolean hitFloor;
-    protected boolean hitLeftWall;
-    protected boolean hitRightWall;
+public class TetrisPiece {
+    private final char EMPTY = '-';
+    private final char OCCUPIED = '0';
+    private int xPosition;
+    private int yPosition;
+    private boolean hitFloor;
+    private boolean hitLeftWall;
+    private boolean hitRightWall;
+    private int rows;
+    private int cols;
+    private char[][] piece;
+    int[] coordinates;
 
-    public TetrisPiece() {
-        indexPieceState = 0;
-        xPosition = 0;
+    public TetrisPiece(char piece) {
+        xPosition = 4;
         yPosition = 0;
         hitFloor = false;
         hitLeftWall = false;
         hitRightWall = false;
-        List<Integer[]> pieces = initPieceStates();
-        pieceStates = initList(pieces);
+        switch (piece) {
+            case 'I':
+                initIPiece();
+                break;
+            case 'L':
+                initLPiece();
+                break;
+            case 'O':
+                initOPiece();
+                break;
+            case 'Z':
+                initZPiece();
+                break;
+            case 'S':
+                initSPiece();
+                break;
+            case 'J':
+                initJPiece();
+                break;
+            case 'T':
+                initTPiece();
+                break;
+        }
+        initPiece();
+    }
+
+    private void initIPiece() {
+        rows = 4;
+        cols = 1;
+        coordinates = new int[]{0, 1, 2, 3};
+    }
+
+    private void initLPiece() {
+        rows = 4;
+        cols = 2;
+        coordinates = new int[]{0, 2, 4, 5};
+    }
+
+    private void initOPiece() {
+        rows = 2;
+        cols = 2;
+        coordinates = new int[]{0, 1, 2, 3};
+    }
+
+    private void initZPiece() {
+        rows = 2;
+        cols = 3;
+        coordinates = new int[]{0, 1, 4, 5};
+    }
+
+    private void initSPiece() {
+        rows = 2;
+        cols = 3;
+        coordinates = new int[]{1, 2, 3, 4};
+    }
+
+    private void initJPiece() {
+        rows = 4;
+        cols = 2;
+        coordinates = new int[]{1, 3, 4, 5};
+    }
+
+    private void initTPiece() {
+        rows = 2;
+        cols = 3;
+        coordinates = new int[]{1, 3, 4, 5};
     }
 
     public int getxPosition() {
@@ -39,17 +106,14 @@ public abstract class TetrisPiece {
         this.yPosition = yPosition;
     }
 
-
-    public Character[][] getCurrentPieceState() {
-        return pieceStates.get(indexPieceState).clone();
-    }
-
     public void rotatePiece() {
         if (!isHitFloor()) {
             moveDown();
-            indexPieceState++;
-            if (indexPieceState >= pieceStates.size()) {
-                indexPieceState = 0;
+            char[][] tempPiece = piece.clone();
+            for (int currentRows = 0; currentRows < rows; currentRows++) {
+                for (int currentCols = 0; currentCols < cols; currentCols++) {
+                    piece[cols - 1 - currentCols][currentRows] = tempPiece[currentRows][currentCols];
+                }
             }
         }
     }
@@ -78,26 +142,19 @@ public abstract class TetrisPiece {
         }
     }
 
-    protected abstract List<Integer[]> initPieceStates();
-
-    protected List<Character[][]> initList(List<Integer[]> pieces) {
-        List<Character[][]> tempPieceStates = new ArrayList<>();
-        for (Integer[] piece : pieces) {
-            short counter = 0;
-            Character[][] currentPiece = new Character[4][4];
-            for (int rows = 0; rows < 4; rows++) {
-                for (int cols = 0; cols < 4; cols++) {
-                    if (counter < 4 && piece[counter] == ((rows * 4) + (cols))) {
-                        counter++;
-                        currentPiece[rows][cols] = '0';
-                    } else {
-                        currentPiece[rows][cols] = '-';
-                    }
+    private void initPiece() {
+        piece = new char[rows][cols];
+        int coordinatePointer = 0;
+        for (int currentRows = 0; currentRows < rows; currentRows++) {
+            for (int currentCols = 0; currentCols < cols; currentCols++) {
+                if ((currentRows * cols + currentCols) == coordinates[coordinatePointer]) {
+                    piece[currentRows][currentCols] = OCCUPIED;
+                    coordinatePointer++;
+                } else {
+                    piece[currentRows][currentCols] = EMPTY;
                 }
             }
-            tempPieceStates.add(currentPiece);
         }
-        return new ArrayList<>(tempPieceStates);
     }
 
     public boolean isHitFloor() {
@@ -122,5 +179,9 @@ public abstract class TetrisPiece {
 
     public void setHitRightWall(boolean hitRightWall) {
         this.hitRightWall = hitRightWall;
+    }
+
+    public char[][] getPiece() {
+        return piece.clone();
     }
 }

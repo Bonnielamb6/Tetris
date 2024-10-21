@@ -86,26 +86,8 @@ public class Game {
         char option = scanner.nextLine().toUpperCase().charAt(0);
         TetrisPiece currentPiece;
         switch (option) {
-            case 'T':
-                currentPiece = new TPiece();
-                break;
-            case 'O':
-                currentPiece = new OPiece();
-                break;
-            case 'L':
-                currentPiece = new LPiece();
-                break;
-            case 'J':
-                currentPiece = new JPiece();
-                break;
-            case 'I':
-                currentPiece = new IPiece();
-                break;
-            case 'S':
-                currentPiece = new SPiece();
-                break;
-            case 'Z':
-                currentPiece = new ZPiece();
+            case 'T', 'O', 'L', 'J', 'I', 'S', 'Z':
+                currentPiece = new TetrisPiece(option);
                 break;
             default:
                 System.out.println("That option is not valid");
@@ -118,23 +100,23 @@ public class Game {
 
     private char[][] createMatrix(TetrisPiece currentPiece) {
         char[][] matrixTemp = grid.getBoard();
-
-        for (int i = 0; i < currentPiece.getCurrentPieceState().length; i++) {
-            for (int j = 0; j < currentPiece.getCurrentPieceState().length; j++) {
+        char[][] currentPieceTemp = currentPiece.getPiece();
+        for (int i = 0; i < currentPieceTemp.length; i++) {
+            for (int j = 0; j < currentPieceTemp[0].length; j++) {
                 int tempi = currentPiece.getyPosition() + i;
                 int tempj = currentPiece.getxPosition() + j;
-                if (currentPiece.getCurrentPieceState()[i][j] == '0') {
+                if (currentPieceTemp[i][j] == '0') {
                     currentPiece.setHitRightWall((currentPiece.getxPosition() + j) == matrixTemp[0].length - 1);
                     currentPiece.setHitLeftWall((currentPiece.getxPosition() + j) == 1);
                     if (currentPiece.getyPosition() + i >= matrixTemp.length - 1 || matrixTemp[tempi + 1][tempj] == '0') {
                         currentPiece.hitFloor();
                     }
-                    matrixTemp[tempi][tempj] = currentPiece.getCurrentPieceState()[i][j];
+                    matrixTemp[tempi][tempj] = currentPieceTemp[i][j];
                 }
             }
         }
         if (currentPiece.isHitFloor()) {
-            grid.saveMatrix(matrixTemp);
+            grid.saveBoard(matrixTemp);
         }
         return matrixTemp;
     }

@@ -7,6 +7,7 @@ public class Grid {
     private boolean isOnTop = false;
     private final int rows;
     private final int cols;
+
     public Grid(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
@@ -14,7 +15,7 @@ public class Grid {
         initializeBoard();
     }
 
-    public void saveMatrix(char[][] matrix) {
+    public void saveBoard(char[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             System.arraycopy(matrix[i], 0, this.BOARD[i], 0, matrix[i].length);
         }

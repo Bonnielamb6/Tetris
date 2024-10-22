@@ -66,6 +66,12 @@ public class Game {
                     if (currentPiece.isHitFloor()) {
                         option = "exit";
                     }
+                    if(currentPiece.isHitRightWall()){
+                        currentPiece.setxPosition(board.getCols()-currentPiece.getRows());
+                    }
+                    if(currentPiece.isHitLeftWall()){
+                        currentPiece.setxPosition(0);
+                    }
                     currentPiece.rotatePiece();
                     matrix = createMatrix(currentPiece);
                     printBoard(matrix);

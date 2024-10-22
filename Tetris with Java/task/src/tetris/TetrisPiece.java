@@ -117,7 +117,7 @@ public class TetrisPiece {
                     pieceTemp[tempCols - 1 - j][i] = piece[i][j];
                 }
             }
-             piece = pieceTemp;
+            piece = pieceTemp;
             rows = piece.length;
             cols = piece[0].length;
         }

@@ -1,8 +1,5 @@
 package tetris;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TetrisPiece {
     private final char EMPTY = '-';
     private final char OCCUPIED = '0';
@@ -109,12 +106,10 @@ public class TetrisPiece {
     public void rotatePiece() {
         if (!isHitFloor()) {
             moveDown();
-            int tempRows = piece.length;
-            int tempCols = piece[0].length;
-            char[][] pieceTemp = new char[tempCols][tempRows];
-            for (int i = 0; i < tempRows; i++) {
-                for (int j = 0; j < tempCols; j++) {
-                    pieceTemp[tempCols - 1 - j][i] = piece[i][j];
+            char[][] pieceTemp = new char[cols][rows];
+            for (int currentRow = 0; currentRow < rows; currentRow++) {
+                for (int currentCol = 0; currentCol < cols; currentCol++) {
+                    pieceTemp[cols - 1 - currentCol][currentRow] = piece[currentRow][currentCol];
                 }
             }
             piece = pieceTemp;
@@ -134,7 +129,6 @@ public class TetrisPiece {
         if (!isHitLeftWall()) {
             setxPosition(xPosition - 1);
         }
-
     }
 
     public void moveRight() {
@@ -142,7 +136,6 @@ public class TetrisPiece {
         if (!isHitRightWall()) {
             setxPosition(xPosition + 1);
         }
-
     }
 
     private void initPiece() {

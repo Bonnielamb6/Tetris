@@ -5,58 +5,58 @@ public class Board {
     private final char OCCUPIED = '0';
     private final char[][] BOARD;
     private boolean isOnTop = false;
-    private final int rows;
-    private final int cols;
+    private final int ROWS;
+    private final int COLS;
 
     public Board(int rows, int cols) {
-        this.rows = rows;
-        this.cols = cols;
+        ROWS = rows;
+        COLS = cols;
         BOARD = new char[rows][cols];
         initializeBoard();
     }
 
-    public void saveBoard(char[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            System.arraycopy(matrix[i], 0, this.BOARD[i], 0, matrix[i].length);
+    public void saveBoard(char[][] tempBoard) {
+        for (int currentRow = 0; currentRow < tempBoard.length; currentRow++) {
+            System.arraycopy(tempBoard[currentRow], 0, this.BOARD[currentRow], 0, COLS);
         }
         checkTopRow();
     }
 
     public char[][] getBoard() {
-        char[][] matrixTemp = new char[BOARD.length][BOARD[0].length];
-        for (int i = 0; i < BOARD.length; i++) {
-            System.arraycopy(BOARD[i], 0, matrixTemp[i], 0, BOARD[i].length);
+        char[][] matrixTemp = new char[ROWS][COLS];
+        for (int currentRow = 0; currentRow < ROWS; currentRow++) {
+            System.arraycopy(BOARD[currentRow], 0, matrixTemp[currentRow], 0, COLS);
         }
         return matrixTemp;
     }
 
     public void breakPieces() {
-        int counter;
-        for (int i = 0; i < BOARD.length; i++) {
-            counter = 0;
-            for (int j = 0; j < BOARD[i].length; j++) {
-                if (BOARD[i][j] == OCCUPIED) {
-                    counter++;
+        int piecesInLine;
+        for (int currentRow = 0; currentRow < ROWS; currentRow++) {
+            piecesInLine = 0;
+            for (int currentCol = 0; currentCol < COLS; currentCol++) {
+                if (BOARD[currentRow][currentCol] == OCCUPIED) {
+                    piecesInLine++;
                 }
             }
-            if (counter == BOARD[i].length) {
-                dropBlocks(i);
-                for (int j = 0; j < BOARD[i].length; j++) {
-                    BOARD[0][j] = EMPTY;
+            if (piecesInLine == COLS) {
+                dropBlocks(currentRow);
+                for (int lineToCopy = 0; lineToCopy < COLS; lineToCopy++) {
+                    BOARD[0][lineToCopy] = EMPTY;
                 }
             }
         }
     }
 
     private void dropBlocks(int row) {
-        for (int i = row; i > 0; i--) {
-            System.arraycopy(BOARD[i - 1], 0, BOARD[i], 0, BOARD[i].length);
+        for (int lineToDrop = row; lineToDrop > 0; lineToDrop--) {
+            System.arraycopy(BOARD[lineToDrop - 1], 0, BOARD[lineToDrop], 0, BOARD[lineToDrop].length);
         }
     }
 
     private void checkTopRow() {
-        for (int i = 0; i < BOARD[0].length; i++) {
-            if (BOARD[0][i] == OCCUPIED) {
+        for (int currentCol = 0; currentCol < COLS; currentCol++) {
+            if (BOARD[0][currentCol] == OCCUPIED) {
                 isOnTop = true;
                 break;
             }
@@ -64,9 +64,9 @@ public class Board {
     }
 
     private void initializeBoard() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                BOARD[i][j] = EMPTY;
+        for (int currentRow = 0; currentRow < ROWS; currentRow++) {
+            for (int currentCol = 0; currentCol < COLS; currentCol++) {
+                BOARD[currentRow][currentCol] = EMPTY;
             }
         }
     }
@@ -76,10 +76,10 @@ public class Board {
     }
 
     public int getRows() {
-        return rows;
+        return ROWS;
     }
 
     public int getCols() {
-        return cols;
+        return COLS;
     }
 }

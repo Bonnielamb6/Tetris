@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class Game {
     Scanner scanner;
-    static Board board;
+    final Board BOARD;
 
     public Game(int rows, int cols) {
         scanner = new Scanner(System.in);
-        board = new Board(rows, cols);
-        printBoard(board.getBoard());
+        BOARD = new Board(rows, cols);
+        printBoard(BOARD.getBoard());
     }
 
     public void start() {
@@ -25,8 +25,8 @@ public class Game {
                 option = menuPieces(scanner);
                 break;
             case "break":
-                board.breakPieces();
-                printBoard(board.getBoard());
+                BOARD.breakPieces();
+                printBoard(BOARD.getBoard());
                 break;
         }
         return option;
@@ -39,11 +39,11 @@ public class Game {
             option = scanner.nextLine().toLowerCase();
             switch (option) {
                 case "right":
-                    if (currentPiece.isHitFloor()) {
-                        option = "exit";
-                    }
-                    currentPiece.moveRight();
-                    matrix = createMatrix(currentPiece);
+                    if (currentPiece.isHitFloor()) {        //The piece can move one more time even if it seems
+                        option = "exit";                    //to be in the floor for the first time
+                    }                                       //that is why it is checked before the process instead of
+                    currentPiece.moveRight();               //being checked at the end
+                    matrix = modifyMatrix(currentPiece);
                     printBoard(matrix);
                     break;
                 case "left":
@@ -51,7 +51,7 @@ public class Game {
                         option = "exit";
                     }
                     currentPiece.moveLeft();
-                    matrix = createMatrix(currentPiece);
+                    matrix = modifyMatrix(currentPiece);
                     printBoard(matrix);
                     break;
                 case "down":
@@ -59,32 +59,39 @@ public class Game {
                         option = "exit";
                     }
                     currentPiece.moveDown();
-                    matrix = createMatrix(currentPiece);
+                    matrix = modifyMatrix(currentPiece);
                     printBoard(matrix);
                     break;
                 case "rotate":
                     if (currentPiece.isHitFloor()) {
                         option = "exit";
                     }
-                    if(currentPiece.isHitRightWall()){
-                        currentPiece.setxPosition(board.getCols()-currentPiece.getRows());
-                    }
-                    if(currentPiece.isHitLeftWall()){
-                        currentPiece.setxPosition(0);
-                    }
+                    adjustRotation(currentPiece);
                     currentPiece.rotatePiece();
-                    matrix = createMatrix(currentPiece);
+                    matrix = modifyMatrix(currentPiece);
                     printBoard(matrix);
                     break;
                 case "exit":
                     return "exit";
             }
         }
-        if (board.isOnTop()) {
+        if (BOARD.isOnTop()) {
             System.out.println("Game Over!");
             return "exit";
         } else {
             return "";
+        }
+    }
+
+    private void adjustRotation(TetrisPiece currentPiece) {
+        if (currentPiece.getxPosition() + currentPiece.getRows() > BOARD.getCols()) {
+            currentPiece.setxPosition(BOARD.getCols() - currentPiece.getRows());
+        }
+        if (currentPiece.isHitLeftWall()) {
+            currentPiece.setxPosition(0);
+        }
+        if (currentPiece.isHitFloor()) {
+            currentPiece.setyPosition(BOARD.getRows() - currentPiece.getCols());
         }
     }
 
@@ -99,38 +106,51 @@ public class Game {
                 System.out.println("That option is not valid");
                 return "";
         }
-        char[][] board = createMatrix(currentPiece);
+        char[][] board = modifyMatrix(currentPiece);
         printBoard(board);
         return menuMovePiece(scanner, currentPiece);
     }
 
-    private char[][] createMatrix(TetrisPiece currentPiece) {
-        char[][] tempBoard = board.getBoard();
+    private char[][] modifyMatrix(TetrisPiece currentPiece) {
+        char[][] tempBoard = BOARD.getBoard();
         char[][] currentPieceMatrix = currentPiece.getPiece();
-        for (int currentRows = 0; currentRows < currentPieceMatrix.length; currentRows++) {
-            for (int currentCols = 0; currentCols < currentPieceMatrix[0].length; currentCols++) {
-                int tempRow = currentPiece.getyPosition() + currentRows;
-                int tempCol = currentPiece.getxPosition() + currentCols;
-                if (currentPieceMatrix[currentRows][currentCols] == '0') {
-                    tempBoard[tempRow][tempCol] = currentPieceMatrix[currentRows][currentCols];
+        for (int currentRow = 0; currentRow < currentPieceMatrix.length; currentRow++) {
+            for (int currentCol = 0; currentCol < currentPieceMatrix[0].length; currentCol++) {
+                int tempRow = currentPiece.getyPosition() + currentRow;
+                int tempCol = currentPiece.getxPosition() + currentCol;
+                if (currentPiece.isOccupied(currentRow, currentCol)) {
+                    tempBoard[tempRow][tempCol] = currentPieceMatrix[currentRow][currentCol];
+                    checkPieceBelow(tempBoard, currentPiece, tempRow + 1, tempCol);
                 }
             }
         }
-        currentPiece.setHitLeftWall(currentPiece.getxPosition() == 0);
-        currentPiece.setHitRightWall(currentPiece.getxPosition()+currentPiece.getCols() == board.getCols());
         if (currentPiece.isHitFloor()) {
-            board.saveBoard(tempBoard);
+            BOARD.saveBoard(tempBoard);
         }
-        if(currentPiece.getyPosition()+currentPiece.getRows() == board.getRows()){
-            currentPiece.hitFloor();
-        }
+        checkWalls(currentPiece);
         return tempBoard;
     }
 
+    private void checkPieceBelow(char[][] tempBoard, TetrisPiece currentPiece, int row, int col) {
+        if (!(row >= BOARD.getRows())) {
+            if (tempBoard[row][col] == TetrisPiece.getOCCUPIED()) {
+                currentPiece.hitFloor();
+            }
+        }
+    }
+
+    private void checkWalls(TetrisPiece currentPiece) {
+        currentPiece.setHitLeftWall(currentPiece.getxPosition() == 0);
+        currentPiece.setHitRightWall(currentPiece.getxPosition() + currentPiece.getCols() == BOARD.getCols());
+        if (currentPiece.getyPosition() + currentPiece.getRows() == BOARD.getRows()) {
+            currentPiece.hitFloor();
+        }
+    }
+
     private void printBoard(char[][] matrix) {
-        for (char[] characters : matrix) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                System.out.print(characters[j] + " ");
+        for (char[] currentRow : matrix) {
+            for (int currentCol = 0; currentCol < matrix[0].length; currentCol++) {
+                System.out.print(currentRow[currentCol] + " ");
             }
             System.out.println();
         }

@@ -1,8 +1,8 @@
 package tetris;
 
 public class TetrisPiece {
-    private final char EMPTY = '-';
-    private final char OCCUPIED = '0';
+    private static final char EMPTY = '-';
+    private static final char OCCUPIED = '0';
     private int xPosition;
     private int yPosition;
     private boolean hitFloor;
@@ -104,18 +104,18 @@ public class TetrisPiece {
     }
 
     public void rotatePiece() {
-        if (!isHitFloor()) {
-            moveDown();
-            char[][] pieceTemp = new char[cols][rows];
-            for (int currentRow = 0; currentRow < rows; currentRow++) {
-                for (int currentCol = 0; currentCol < cols; currentCol++) {
-                    pieceTemp[cols - 1 - currentCol][currentRow] = piece[currentRow][currentCol];
-                }
+
+        moveDown();
+        char[][] pieceTemp = new char[cols][rows];
+        for (int currentRow = 0; currentRow < rows; currentRow++) {
+            for (int currentCol = 0; currentCol < cols; currentCol++) {
+                pieceTemp[cols - 1 - currentCol][currentRow] = piece[currentRow][currentCol];
             }
-            piece = pieceTemp;
-            rows = piece.length;
-            cols = piece[0].length;
         }
+        piece = pieceTemp;
+        rows = piece.length;
+        cols = piece[0].length;
+
     }
 
     public void moveDown() {
@@ -153,6 +153,10 @@ public class TetrisPiece {
         }
     }
 
+    public boolean isOccupied(int row, int col){
+        return piece[row][col] == OCCUPIED;
+    }
+
     public boolean isHitFloor() {
         return hitFloor;
     }
@@ -188,4 +192,9 @@ public class TetrisPiece {
     public int getCols() {
         return cols;
     }
+
+    public static char getOCCUPIED() {
+        return OCCUPIED;
+    }
+
 }

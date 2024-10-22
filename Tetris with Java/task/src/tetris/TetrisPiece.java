@@ -3,6 +3,8 @@ package tetris;
 public class TetrisPiece {
     private static final char EMPTY = '-';
     private static final char OCCUPIED = '0';
+    public static final int MAX_SPACES_OCCUPIED = 4;
+    public static final int CENTER = 4;
     private int xPosition;
     private int yPosition;
     private boolean hitFloor;
@@ -14,7 +16,7 @@ public class TetrisPiece {
     int[] coordinates;
 
     public TetrisPiece(char piece) {
-        xPosition = 4;
+        xPosition = CENTER;
         yPosition = 0;
         hitFloor = false;
         hitLeftWall = false;
@@ -143,7 +145,7 @@ public class TetrisPiece {
         int coordinatePointer = 0;
         for (int currentRows = 0; currentRows < rows; currentRows++) {
             for (int currentCols = 0; currentCols < cols; currentCols++) {
-                if (coordinatePointer < 4 && (currentRows * cols + currentCols) == coordinates[coordinatePointer]) {
+                if (coordinatePointer < MAX_SPACES_OCCUPIED && (currentRows * cols + currentCols) == coordinates[coordinatePointer]) {
                     piece[currentRows][currentCols] = OCCUPIED;
                     coordinatePointer++;
                 } else {
@@ -153,7 +155,7 @@ public class TetrisPiece {
         }
     }
 
-    public boolean isOccupied(int row, int col){
+    public boolean isOccupied(int row, int col) {
         return piece[row][col] == OCCUPIED;
     }
 

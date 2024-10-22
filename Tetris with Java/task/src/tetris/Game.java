@@ -3,8 +3,8 @@ package tetris;
 import java.util.Scanner;
 
 public class Game {
-    Scanner scanner;
-    final Board BOARD;
+    private final Scanner scanner;
+    private final Board BOARD;
 
     public Game(int rows, int cols) {
         scanner = new Scanner(System.in);

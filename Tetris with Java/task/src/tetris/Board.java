@@ -1,6 +1,6 @@
 package tetris;
 
-public class Grid {
+public class Board {
     private final char EMPTY = '-';
     private final char OCCUPIED = '0';
     private final char[][] BOARD;
@@ -8,7 +8,7 @@ public class Grid {
     private final int rows;
     private final int cols;
 
-    public Grid(int rows, int cols) {
+    public Board(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
         BOARD = new char[rows][cols];
@@ -73,5 +73,13 @@ public class Grid {
 
     public boolean isOnTop() {
         return isOnTop;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
     }
 }

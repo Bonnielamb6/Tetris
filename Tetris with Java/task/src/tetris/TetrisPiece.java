@@ -118,6 +118,8 @@ public class TetrisPiece {
                 }
             }
              piece = pieceTemp;
+            rows = piece.length;
+            cols = piece[0].length;
         }
     }
 
@@ -128,21 +130,19 @@ public class TetrisPiece {
     }
 
     public void moveLeft() {
-        if (!isHitFloor()) {
-            moveDown();
-            if (!isHitLeftWall()) {
-                setxPosition(xPosition - 1);
-            }
+        moveDown();
+        if (!isHitLeftWall()) {
+            setxPosition(xPosition - 1);
         }
+
     }
 
     public void moveRight() {
-        if (!isHitFloor()) {
-            moveDown();
-            if (!isHitRightWall()) {
-                setxPosition(xPosition + 1);
-            }
+        moveDown();
+        if (!isHitRightWall()) {
+            setxPosition(xPosition + 1);
         }
+
     }
 
     private void initPiece() {
@@ -150,7 +150,7 @@ public class TetrisPiece {
         int coordinatePointer = 0;
         for (int currentRows = 0; currentRows < rows; currentRows++) {
             for (int currentCols = 0; currentCols < cols; currentCols++) {
-                if (coordinatePointer<4 && (currentRows * cols + currentCols) == coordinates[coordinatePointer]) {
+                if (coordinatePointer < 4 && (currentRows * cols + currentCols) == coordinates[coordinatePointer]) {
                     piece[currentRows][currentCols] = OCCUPIED;
                     coordinatePointer++;
                 } else {
@@ -186,5 +186,13 @@ public class TetrisPiece {
 
     public char[][] getPiece() {
         return piece.clone();
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
     }
 }

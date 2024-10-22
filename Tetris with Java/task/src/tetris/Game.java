@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class Game {
     Scanner scanner;
-    static Grid grid;
+    static Board board;
 
     public Game(int rows, int cols) {
         scanner = new Scanner(System.in);
-        grid = new Grid(rows, cols);
-        printBoard(grid.getBoard());
+        board = new Board(rows, cols);
+        printBoard(board.getBoard());
     }
 
     public void start() {
@@ -25,8 +25,8 @@ public class Game {
                 option = menuPieces(scanner);
                 break;
             case "break":
-                grid.breakPieces();
-                printBoard(grid.getBoard());
+                board.breakPieces();
+                printBoard(board.getBoard());
                 break;
         }
         return option;
@@ -74,7 +74,7 @@ public class Game {
                     return "exit";
             }
         }
-        if (grid.isOnTop()) {
+        if (board.isOnTop()) {
             System.out.println("Game Over!");
             return "exit";
         } else {
@@ -93,32 +93,32 @@ public class Game {
                 System.out.println("That option is not valid");
                 return "";
         }
-        char[][] matrix = createMatrix(currentPiece);
-        printBoard(matrix);
+        char[][] board = createMatrix(currentPiece);
+        printBoard(board);
         return menuMovePiece(scanner, currentPiece);
     }
 
     private char[][] createMatrix(TetrisPiece currentPiece) {
-        char[][] matrixTemp = grid.getBoard();
-        char[][] currentPieceTemp = currentPiece.getPiece();
-        for (int i = 0; i < currentPieceTemp.length; i++) {
-            for (int j = 0; j < currentPieceTemp[0].length; j++) {
-                int tempi = currentPiece.getyPosition() + i;
-                int tempj = currentPiece.getxPosition() + j;
-                if (currentPieceTemp[i][j] == '0') {
-                    currentPiece.setHitRightWall((currentPiece.getxPosition() + j) == matrixTemp[0].length - 1);
-                    currentPiece.setHitLeftWall((currentPiece.getxPosition() + j) == 1);
-                    if (currentPiece.getyPosition() + i >= matrixTemp.length - 1 || matrixTemp[tempi + 1][tempj] == '0') {
-                        currentPiece.hitFloor();
-                    }
-                    matrixTemp[tempi][tempj] = currentPieceTemp[i][j];
+        char[][] tempBoard = board.getBoard();
+        char[][] currentPieceMatrix = currentPiece.getPiece();
+        for (int currentRows = 0; currentRows < currentPieceMatrix.length; currentRows++) {
+            for (int currentCols = 0; currentCols < currentPieceMatrix[0].length; currentCols++) {
+                int tempRow = currentPiece.getyPosition() + currentRows;
+                int tempCol = currentPiece.getxPosition() + currentCols;
+                if (currentPieceMatrix[currentRows][currentCols] == '0') {
+                    tempBoard[tempRow][tempCol] = currentPieceMatrix[currentRows][currentCols];
                 }
             }
         }
+        currentPiece.setHitLeftWall(currentPiece.getxPosition() == 0);
+        currentPiece.setHitRightWall(currentPiece.getxPosition()+currentPiece.getCols() == board.getCols());
         if (currentPiece.isHitFloor()) {
-            grid.saveBoard(matrixTemp);
+            board.saveBoard(tempBoard);
         }
-        return matrixTemp;
+        if(currentPiece.getyPosition()+currentPiece.getRows() == board.getRows()){
+            currentPiece.hitFloor();
+        }
+        return tempBoard;
     }
 
     private void printBoard(char[][] matrix) {

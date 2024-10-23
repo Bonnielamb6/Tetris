@@ -1,4 +1,4 @@
-package tetris;
+package org.example;
 
 public class TetrisPiece {
     private static final char EMPTY = '-';
@@ -15,12 +15,19 @@ public class TetrisPiece {
     private char[][] piece;
     int[] coordinates;
 
-    public TetrisPiece(char piece) {
+    public TetrisPiece() {
+        initValues();
+    }
+
+    private void initValues(){
         xPosition = CENTER;
         yPosition = 0;
         hitFloor = false;
         hitLeftWall = false;
         hitRightWall = false;
+    }
+
+    public void choosePiece(char piece){
         switch (piece) {
             case 'I':
                 initIPiece();
@@ -54,7 +61,7 @@ public class TetrisPiece {
     }
 
     private void initLPiece() {
-        rows = 4;
+        rows = 3;
         cols = 2;
         coordinates = new int[]{0, 2, 4, 5};
     }
@@ -78,7 +85,7 @@ public class TetrisPiece {
     }
 
     private void initJPiece() {
-        rows = 4;
+        rows = 3;
         cols = 2;
         coordinates = new int[]{1, 3, 4, 5};
     }
@@ -106,7 +113,6 @@ public class TetrisPiece {
     }
 
     public void rotatePiece() {
-
         moveDown();
         char[][] pieceTemp = new char[cols][rows];
         for (int currentRow = 0; currentRow < rows; currentRow++) {
@@ -141,6 +147,7 @@ public class TetrisPiece {
     }
 
     private void initPiece() {
+        initValues();
         piece = new char[rows][cols];
         int coordinatePointer = 0;
         for (int currentRows = 0; currentRows < rows; currentRows++) {

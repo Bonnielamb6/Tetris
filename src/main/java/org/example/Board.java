@@ -1,8 +1,8 @@
-package tetris;
+package org.example;
 
 public class Board {
-    private final char EMPTY = '-';
-    private final char OCCUPIED = '0';
+    private static final char EMPTY = '-';
+    private static final char OCCUPIED = '0';
     private final char[][] BOARD;
     private boolean isOnTop = false;
     private final int ROWS;

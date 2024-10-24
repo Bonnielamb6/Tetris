@@ -11,7 +11,7 @@ public class Game {
     }
 
     public void start() {
-        printBoard(createBoard(BOARD.getBoard()));
+        System.out.println((createBoard(BOARD.getBoard())));
         while (true) {
             if (generalMenu().equalsIgnoreCase("exit")) {
                 break;
@@ -27,7 +27,7 @@ public class Game {
                 break;
             case "break":
                 BOARD.breakPieces();
-                printBoard(createBoard(BOARD.getBoard()));
+                System.out.println((createBoard(BOARD.getBoard())));
                 break;
         }
         return option;
@@ -45,7 +45,7 @@ public class Game {
                     }                                       //that is why it is checked before the process instead of
                     currentPiece.moveRight();               //being checked at the end
                     matrix = modifyMatrix(currentPiece);
-                    printBoard(createBoard(matrix));
+                    System.out.println((createBoard(matrix)));
                     break;
                 case "left":
                     if (currentPiece.isHitFloor()) {
@@ -53,7 +53,7 @@ public class Game {
                     }
                     currentPiece.moveLeft();
                     matrix = modifyMatrix(currentPiece);
-                    printBoard(createBoard(matrix));
+                    System.out.println((createBoard(matrix)));
                     break;
                 case "down":
                     if (currentPiece.isHitFloor()) {
@@ -61,7 +61,7 @@ public class Game {
                     }
                     currentPiece.moveDown();
                     matrix = modifyMatrix(currentPiece);
-                    printBoard(createBoard(matrix));
+                    System.out.println((createBoard(matrix)));
                     break;
                 case "rotate":
                     if (currentPiece.isHitFloor()) {
@@ -70,7 +70,7 @@ public class Game {
                     adjustRotation(currentPiece);
                     currentPiece.rotatePiece();
                     matrix = modifyMatrix(currentPiece);
-                    printBoard(createBoard(matrix));
+                    System.out.println((createBoard(matrix)));
                     break;
                 case "exit":
                     return "exit";
@@ -110,7 +110,7 @@ public class Game {
                 return "";
         }
         char[][] board = modifyMatrix(currentPiece);
-        printBoard(createBoard(board));
+        System.out.println((createBoard(board)));
         return menuMovePiece(currentPiece);
     }
 
@@ -149,20 +149,16 @@ public class Game {
         }
     }
 
-    private void printBoard(String board) {
-        System.out.print(board);
-    }
-
     private String createBoard(char[][] matrix) {
-        StringBuilder board = new StringBuilder();
+        StringBuilder matrixToPrint = new StringBuilder();
         for (char[] currentRow : matrix) {
             for (int currentCol = 0; currentCol < matrix[0].length; currentCol++) {
-                board.append(currentRow[currentCol]);
-                board.append(" ");
+                matrixToPrint.append(currentRow[currentCol]);
+                matrixToPrint.append(" ");
             }
-            board.append("\n");
+            matrixToPrint.append("\n");
         }
-        board.append("\n");
-        return board.toString();
+        matrixToPrint.append("\n");
+        return matrixToPrint.toString();
     }
 }

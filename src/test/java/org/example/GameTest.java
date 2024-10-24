@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class GameTest {
-
+    //cambiar nombres de tests de gametest
+    //testear como se comporta una pieza en el board
     private final ScannerWrapper scanner;
     private final Board boardSpy;
     private final Game gameToTest;
@@ -75,51 +76,239 @@ class GameTest {
 
     @Test
     void menuMovePieceRight() {
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - - - 0 - - -\s
+                - - - - - 0 0 0 - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                
+                """;
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("t").thenReturn("right").thenReturn("exit");
         gameToTest.start();
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected,captor.getValue());
     }
 
     @Test
     void menuMovePieceLeft() {
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - 0 - - - - -\s
+                - - - 0 0 0 - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                
+                """;
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("t").thenReturn("left").thenReturn("exit");
         gameToTest.start();
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected,captor.getValue());
     }
 
     @Test
     void menuMovePieceDown() {
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - - 0 - - - -\s
+                - - - - 0 0 0 - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                
+                """;
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("t").thenReturn("down").thenReturn("exit");
         gameToTest.start();
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected,captor.getValue());
     }
 
     @Test
     void menuRotatePiece() {
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - - 0 - - - -\s
+                - - - - 0 0 - - - -\s
+                - - - - - 0 - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                
+                """;
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("t").thenReturn("rotate").thenReturn("exit");
         gameToTest.start();
-
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected,captor.getValue());
     }
 
     @Test
-    void adjustRotationRight() {
+    void rotateRightWhenOnWall() {
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - 0 0 0 0\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                
+                """;
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("i").thenReturn("right").thenReturn("right").thenReturn("right")
                 .thenReturn("right").thenReturn("right").thenReturn("rotate").thenReturn("exit");
         gameToTest.start();
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected,captor.getValue());
     }
 
     @Test
-    void adjustRotationLeft() {
+    void rotateLeftWhenOnWall() {
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                0 0 0 0 - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                
+                """;
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("i").thenReturn("left").thenReturn("left").thenReturn("left")
                 .thenReturn("left").thenReturn("left").thenReturn("rotate").thenReturn("exit");
         gameToTest.start();
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected,captor.getValue());
     }
 
     @Test
-    void adjustRotationDown() {
+    void rotateDownWhenAlmostOnFloor() {
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - 0 0 - - -\s
+                - - - - 0 0 - - - -\s
+                
+                """;
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("s").thenReturn("rotate").thenReturn("down")
                 .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
                 .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
                 .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
                 .thenReturn("rotate").thenReturn("exit");
         gameToTest.start();
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected,captor.getValue());
     }
 
     @Test
@@ -144,7 +333,7 @@ class GameTest {
     }
 
     @Test
-    void tryRightAfterFloor(){
+    void tryRightAfterFloorShouldNotThrowException(){
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("i").thenReturn("down").thenReturn("down")
                 .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
                 .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
@@ -154,12 +343,22 @@ class GameTest {
     }
 
     @Test
-    void tryLeftAfterFloor(){
+    void tryLeftAfterFloorShouldNotThrowException(){
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("i").thenReturn("down").thenReturn("down")
                 .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
                 .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
                 .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("left")
                 .thenReturn("exit");
+        gameToTest.start();
+    }
+
+    @Test
+    void tryDownAfterFloorShouldNotThrowException() {
+        when(scanner.getUserInput()).thenReturn("piece").thenReturn("i").thenReturn("down").thenReturn("down")
+                .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
+                .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
+                .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
+                .thenReturn("down").thenReturn("exit");
         gameToTest.start();
     }
 
@@ -172,4 +371,113 @@ class GameTest {
         verify(out,atLeastOnce()).print(captor.capture());
         assertEquals("That option is not valid\n", captor.getValue());
     }
+
+    @Test
+    void tryRightAfterAlreadyOnWall() {
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - 0 -\s
+                - - - - - - - 0 0 0\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                
+                """;
+        ArgumentCaptor<String>captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
+        when(scanner.getUserInput()).thenReturn("piece").thenReturn("t").thenReturn("right").thenReturn("right")
+                .thenReturn("right").thenReturn("right").thenReturn("exit");
+        gameToTest.start();
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected, captor.getValue());
+    }
+
+    @Test
+    void tryLeftAfterAlreadyOnWall() {
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - 0 - - - - - - - -\s
+                0 0 0 - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                
+                """;
+        ArgumentCaptor<String>captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
+        when(scanner.getUserInput()).thenReturn("piece").thenReturn("t").thenReturn("left").thenReturn("left")
+                .thenReturn("left").thenReturn("left").thenReturn("left").thenReturn("exit");
+        gameToTest.start();
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected, captor.getValue());
+    }
+
+    @Test
+    void hitAnotherPiece(){
+        String expected = """
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - - - - - - -\s
+                - - - - 0 - - - - -\s
+                - - - - 0 - - - - -\s
+                - - - - 0 - - - - -\s
+                - - - - 0 - - - - -\s
+                - - - - 0 - - - - -\s
+                - - - - 0 - - - - -\s
+                - - - - 0 - - - - -\s
+                - - - - 0 - - - - -\s
+                
+                """;
+        ArgumentCaptor<String>captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(out);
+        when(scanner.getUserInput()).thenReturn("piece").thenReturn("i").thenReturn("down").thenReturn("down")
+                .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
+                .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
+                .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
+                .thenReturn("piece").thenReturn("i").thenReturn("down").thenReturn("down").thenReturn("down")
+                .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
+                .thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down").thenReturn("down")
+                .thenReturn("exit");
+        gameToTest.start();
+        verify(out,atLeastOnce()).println(captor.capture());
+        assertEquals(expected, captor.getValue());
+    }
+
 }

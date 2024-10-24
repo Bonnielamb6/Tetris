@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class GameTest {
-    //cambiar nombres de tests de gametest
-    //testear como se comporta una pieza en el board
     private final ScannerWrapper scanner;
     private final Board boardSpy;
     private final Game gameToTest;

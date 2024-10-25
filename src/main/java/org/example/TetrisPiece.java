@@ -162,7 +162,7 @@ public class TetrisPiece {
         }
     }
 
-    public boolean isOccupied(int row, int col) {
+    public boolean isCellPartOfPiece(int row, int col) {
         return piece[row][col] == OCCUPIED;
     }
 

@@ -212,17 +212,17 @@ class TetrisPieceTest {
     }
 
     @Test
-    void isOccupied() {
+    void isCellPartOfPiece() {
         int rowToCheck = 0;
         int colToCheck = 0;
-        assertTrue(pieceToTest.isOccupied(rowToCheck, colToCheck));
+        assertTrue(pieceToTest.isCellPartOfPiece(rowToCheck, colToCheck));
     }
 
     @Test
     void isNotOccupied() {
         int rowToCheck = 1;
         int colToCheck = 1;
-        assertFalse(pieceToTest.isOccupied(rowToCheck, colToCheck));
+        assertFalse(pieceToTest.isCellPartOfPiece(rowToCheck, colToCheck));
     }
 
     @Test

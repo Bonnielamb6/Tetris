@@ -121,7 +121,7 @@ public class Game {
             for (int currentCol = 0; currentCol < currentPieceMatrix[0].length; currentCol++) {
                 int tempRow = currentPiece.getyPosition() + currentRow;
                 int tempCol = currentPiece.getxPosition() + currentCol;
-                if (currentPiece.isOccupied(currentRow, currentCol)) {
+                if (currentPiece.isCellPartOfPiece(currentRow, currentCol)) {
                     tempBoard[tempRow][tempCol] = currentPieceMatrix[currentRow][currentCol];
                     checkPieceBelow(tempBoard, currentPiece, tempRow + 1, tempCol);
                 }

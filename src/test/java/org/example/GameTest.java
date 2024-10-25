@@ -310,7 +310,7 @@ class GameTest {
     }
 
     @Test
-    void looseGame() {
+    void looseGameWhenMountainPiecesHitsRoof() {
         ArgumentCaptor<String>captor = ArgumentCaptor.forClass(String.class);
         System.setOut(out);
         when(scanner.getUserInput()).thenReturn("piece").thenReturn("i").thenReturn("down").thenReturn("down")
